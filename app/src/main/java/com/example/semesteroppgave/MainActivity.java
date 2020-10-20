@@ -14,13 +14,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button button = findViewById(R.id.btn_yes);
-        button.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                Toast toast_yes = Toast.makeText(getApplicationContext(), "It wørk", Integer.parseInt("5"));
-                toast_yes.show();
+        final Button btn_yes = findViewById(R.id.btn_yes);
+        btn_yes.setOnClickListener(v -> {
+            Toast toast_yes = Toast.makeText(getApplicationContext(), "It wørk", Integer.parseInt("5"));
+            toast_yes.show();
 
-            }
-    });
+        });
+        final Button btn_no = findViewById(R.id.btn_no);
+        btn_no.setOnClickListener(v -> {
+            Toast toast_no = Toast.makeText(getApplicationContext(), "It no wørk", Integer.parseInt("5"));
+            toast_no.show();
+
+
+        });
     }
 }
