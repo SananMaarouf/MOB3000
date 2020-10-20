@@ -16,13 +16,13 @@ public class MainActivity extends AppCompatActivity {
 
         final Button btn_yes = findViewById(R.id.btn_yes);
         btn_yes.setOnClickListener(v -> {
-            Toast toast_yes = Toast.makeText(getApplicationContext(), "It wørk", Integer.parseInt("5"));
+            Toast toast_yes = Toast.makeText(getApplicationContext(), "It wørk", Integer.parseInt("2"));
             toast_yes.show();
 
         });
         final Button btn_no = findViewById(R.id.btn_no);
         btn_no.setOnClickListener(v -> {
-            Toast toast_no = Toast.makeText(getApplicationContext(), "It no wørk", Integer.parseInt("5"));
+            Toast toast_no = Toast.makeText(getApplicationContext(), "It no wørk", Integer.parseInt("2"));
             toast_no.show();
 
 
