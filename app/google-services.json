@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1019960022170",
+    "firebase_url": "https://mob3000-af6f3.firebaseio.com",
+    "project_id": "mob3000-af6f3",
+    "storage_bucket": "mob3000-af6f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019960022170:android:a3c7965196e87b8f403b23",
+        "android_client_info": {
+          "package_name": "com.example.semesteroppgave"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1019960022170-54osvceq97v5kb67pd4og5pli2tv6is5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQHtX8y74hibt-PaAJv-ir7eJtBg0ZHmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1019960022170-54osvceq97v5kb67pd4og5pli2tv6is5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
