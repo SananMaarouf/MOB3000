@@ -9,8 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Semesteroppgave">
-        <activity android:name=".Home"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".SignUp"></activity>
+        <activity android:name=".Login" />
+        <activity android:name=".Home" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

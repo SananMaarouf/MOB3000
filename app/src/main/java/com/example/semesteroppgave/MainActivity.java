@@ -3,10 +3,13 @@ package com.example.semesteroppgave;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -33,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private static int SPLASH_SCREEN = 3500;
     //variables
     Animation topAnim, bottomAnim;
-    ImageView image1;
-    ImageView image2;
+    ImageView image;
+    //ImageView image2;
     TextView logo, slogan;
 
     @Override
@@ -47,27 +50,26 @@ public class MainActivity extends AppCompatActivity {
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
         bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
 
-        //imageview2 er film, imageview3 er blob
-        image1 = findViewById(R.id.imageView2);
-        image2 = findViewById(R.id.imageView3);
-        logo = findViewById(R.id.textView2);
-        slogan = findViewById(R.id.textView3);
+        image = findViewById(R.id.imageView);
+        logo = findViewById(R.id.textView);
+        slogan = findViewById(R.id.textView2);
 
-        image1.setAnimation(topAnim);
-        image2.setAnimation(topAnim);
+        image.setAnimation(topAnim);
         logo.setAnimation(bottomAnim);
         slogan.setAnimation(bottomAnim);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(MainActivity.this, Home.class);
-                startActivity(intent);
-                finish();
-            }
-        },SPLASH_SCREEN);
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                Pair[] pairs = new Pair[2];
+                pairs[0] = new Pair<View, String>(image, "logoImage");
+                pairs[1] = new Pair<View, String>(logo, "logoText");
+
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+                startActivity(intent,options.toBundle());
+                }
+        }, SPLASH_SCREEN);
     }
-
-
 
 }

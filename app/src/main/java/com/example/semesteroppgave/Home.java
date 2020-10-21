@@ -18,7 +18,6 @@ import java.util.Map;
 
 public class Home extends AppCompatActivity {
     private static final String TAG  = "Home";
-
     private static final String KEY_TITLE = "title";
     private static final String KEY_DESCRIPTION = "description";
 
@@ -43,7 +42,7 @@ public class Home extends AppCompatActivity {
         note.put(KEY_TITLE, title);
         note.put(KEY_DESCRIPTION, description);
 
-        db.collection("Notebook").document("My second note").set(note)
+        db.collection("Notebook").document("My first note").set(note)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
