@@ -80,8 +80,8 @@ public class SignUp extends AppCompatActivity {
     // legger inn data
     public void regUser(Editable email, Editable password){
         Map<String, Object> user = new HashMap<>();
-
         user.put("password", password.toString());
+        user.put("email", email.toString());
 
         db.collection("Users").document(email.toString()).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
