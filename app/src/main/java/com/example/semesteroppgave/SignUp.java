@@ -23,13 +23,10 @@ public class SignUp extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     Button callSignIn;
-    Button signUpButton;
-
+    Button returnSignInButton;
     private TextInputLayout email;
     private TextInputLayout password;
     private TextInputLayout password2;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +34,20 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         callSignIn = findViewById(R.id.signUpButton);
+        returnSignInButton = findViewById(R.id.signin_screen);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         password2 = findViewById(R.id.confirmPassword);
+
+        // Returns user to login site
+        returnSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignUp.this, Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
         callSignIn.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +91,7 @@ public class SignUp extends AppCompatActivity {
         user.put("password", password.toString());
         user.put("email", email.toString());
 
+
         db.collection("Users").document(email.toString()).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
 
@@ -101,4 +110,5 @@ public class SignUp extends AppCompatActivity {
                     }
                 });
     }
+
 }

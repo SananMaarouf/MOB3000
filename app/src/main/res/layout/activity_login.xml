@@ -84,7 +84,8 @@
             android:background="#00FFFFFF"
             android:elevation="0dp"
             android:text="Forgotten password?"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:id="@+id/forgotPassword"/>
 
         <Button
             android:layout_width="match_parent"
