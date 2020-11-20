@@ -38,6 +38,49 @@
         android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:orientation="horizontal"
+            >
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fname"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="First Name"
+                android:textColorHint="#FFFFFF"
+                app:hintTextColor="#FBF9F9">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="179dp"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lname"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Last Name"
+                android:textColorHint="#FFFFFF"
+                app:hintTextColor="#FBF9F9">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -102,15 +145,16 @@
                 android:textColorHint="#FFFFFF" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign up"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="5dp"
         android:background="#6C63FF"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="5dp"/>
+        android:text="Sign up" />
 
     <Button
         android:id="@+id/signin_screen"
