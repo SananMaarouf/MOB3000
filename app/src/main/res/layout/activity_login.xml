@@ -84,15 +84,18 @@
             android:background="#00FFFFFF"
             android:elevation="0dp"
             android:text="Forgotten password?"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:id="@+id/forgotPassword"/>
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign in"
-            android:background="#6C63FF"
+            android:layout_height="35dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:background="#6C63FF"
+            android:text="Sign in"
+            android:id="@+id/signInButton"
+            />
 
         <Button
             android:layout_width="match_parent"
