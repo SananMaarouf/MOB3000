@@ -65,7 +65,7 @@ public class Login extends AppCompatActivity {
                         if(task.isSuccessful()){
                             for (QueryDocumentSnapshot document : task.getResult()){
                                 System.out.println(document.getId() + " " + document.getData());
-                                Intent intent = new Intent(Login.this, Home.class);
+                                Intent intent = new Intent(Login.this, MainSite.class);
                                 startActivity(intent);
                                 finish();
                             }
@@ -82,7 +82,7 @@ public class Login extends AppCompatActivity {
         });
         forgotPasswordButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
-                Toast.makeText(Login.this, "Function not ready", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login.this, "Function not available", Toast.LENGTH_SHORT).show();
             }
         });
     }

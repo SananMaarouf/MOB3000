@@ -25,13 +25,17 @@ public class Home extends AppCompatActivity {
     private EditText editTextDescription;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+
+    // Dogshit code we dont need
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        editTextTitle = findViewById(R.id.edit_text_title);
-        editTextDescription = findViewById(R.id.edit_text_description);
+        //editTextTitle = findViewById(R.id.edit_text_title);
+        //editTextDescription = findViewById(R.id.edit_text_description);
     }
 
     public void saveNote(View v) {
