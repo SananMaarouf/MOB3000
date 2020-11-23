@@ -33,7 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class Splashscreen extends AppCompatActivity {
     private static int SPLASH_SCREEN = 1500;
     //variables
     Animation topAnim, bottomAnim;
@@ -64,14 +64,14 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(MainActivity.this, Login.class);
+                Intent intent = new Intent(Splashscreen.this, Login.class);
                 Pair[] pairs = new Pair[2];
                 pairs[0] = new Pair<View, String>(image, "logoImage");
                 pairs[1] = new Pair<View, String>(logo, "logoText");
 
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Splashscreen.this, pairs);
                 startActivity(intent,options.toBundle());
-                }
+            }
         }, SPLASH_SCREEN);
     }
 
