@@ -51,9 +51,6 @@ public class SignUp extends AppCompatActivity {
 
 
         callSignIn.setOnClickListener(new View.OnClickListener() {
-
-
-
             @Override
             public void onClick(View view){
 
@@ -64,26 +61,15 @@ public class SignUp extends AppCompatActivity {
                 // sjekker om passordene e like
                 if(passwordText.toString().equals(password2Text.toString())){
                     System.out.println("Like");
-
                     regUser(emailText, passwordText);
-
-
-
-
                 } else {
                     Toast.makeText(SignUp.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
                 }
-
                 System.out.println(emailText);
                 System.out.println(passwordText);
                 System.out.println(password2Text);
-
-
-
             }
         });
-
-
     }
     // legger inn data
     public void regUser(Editable email, Editable password){
@@ -91,10 +77,8 @@ public class SignUp extends AppCompatActivity {
         user.put("password", password.toString());
         user.put("email", email.toString());
 
-
         db.collection("Users").document(email.toString()).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
-
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT).show();
@@ -110,5 +94,4 @@ public class SignUp extends AppCompatActivity {
                     }
                 });
     }
-
 }
