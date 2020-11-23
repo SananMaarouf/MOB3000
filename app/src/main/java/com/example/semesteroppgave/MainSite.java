@@ -2,6 +2,7 @@ package com.example.semesteroppgave;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,13 +23,26 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import KlasseKomponenter.FinnApi;
+
 public class MainSite extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<Movie> filmer = new ArrayList<>();
     int erPaFilm = 0;
+    // holder kontroll på hvilke side apien er på
+    int sideApi = 1;
+    // holder kontroll på hvor mange sider det er totalt i api spørringen. Husk å oppdater hver gang du gjør en ny spørring
+    int sisteApi = 40;
+    FinnApi finnApi = new FinnApi();
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -46,6 +60,8 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_site);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,33 +79,63 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         like = findViewById(R.id.like);
         dislike = findViewById(R.id.dislike);
 
-
-        nyFilmVis();
+        // 93e7133aa45445f8651ca9eda8a953b5
         System.out.println("STØØØØØRELSE: "+filmer.size());
 
+        // prøver å hente ut informasjon
+        try {
 
+            JSONObject filmliste = finnApi.httpEtterFilm(sideApi);
+            // finner maks antall sider;
+            sisteApi = filmliste.getInt("total_pages");
+            // Gjør JSON om til array
+            JSONArray filmlisteArray = filmliste.getJSONArray("results");
+            leggInnFilm(filmlisteArray);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                settFilm(title,bilde,duration);
+                try {
+                    settFilm(title,bilde,duration);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                settFilm(title,bilde,duration);
+                try {
+                    settFilm(title,bilde,duration);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
-    private void settFilm(TextView title, CardView bilde, TextView duration) {
-        Movie filmen = filmer.get(erPaFilm);
+    private void settFilm(TextView title, CardView bilde, TextView duration) throws Exception {
+        System.out.println("Er på filmnr: "+erPaFilm);
+        System.out.println("Er på sidenr: "+sideApi);
+        if(erPaFilm == filmer.size()){
+            erPaFilm=0;
+            filmer.clear();
+            hentNyeFilmer();
+
+        }else{
+            Movie filmen = filmer.get(erPaFilm);
+            title.setText(filmen.getName());
+            duration.setText(filmen.getDuration());
+            erPaFilm++;
+        }
 
 
-        title.setText(filmen.getName());
-        duration.setText(filmen.getDuration());
-        erPaFilm++;
+
+
     }
 
     @Override
@@ -116,36 +162,41 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         return true;
     }
 
-    // Viser ny film
-    public void nyFilmVis(){
-        CollectionReference movies = db.collection("Movie");
-        movies.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot document : task.getResult()){
-                        //System.out.println(document.getData());
-                        String navn = document.getString("name");
-                        String image = document.getString("image").toString();
-                        String duration = document.getString("duration");
 
-                        //System.out.println("Navn: "+ navn + " image: " + image+ " duration: " + duration);
-                        Movie nyfilm = new Movie(navn,image,duration);
-                        System.out.println("Sys: "+nyfilm.toString());
-                        filmer.add(nyfilm);
-                        System.out.println(filmer.size());
-                    }
-                } else {
-                    System.out.println("monkaS");
-                }
-            }
+    // legger inn filmene fra moviedatabase i listen vår
+    public void leggInnFilm(JSONArray filmliste) throws JSONException {
+        // henter ut informasjon om hver film en etter en
+        for(int i=0; i< filmliste.length(); i++){
+            JSONObject filmen = filmliste.getJSONObject(i);
 
-        });
-        for(Movie filmen: filmer){
-            System.out.println(filmen.toString());
+            String name = filmen.getString("title");
+            String image = filmen.getString("poster_path");
+            String duration = filmen.getString("release_date");
+            String overview = filmen.getString("overview");
+            String id = filmen.getString("id");
+            float rating = Float.parseFloat(filmen.getString("vote_average"));
 
+            // lager objektet
+            Movie nyfilm = new Movie(name,image,duration,overview,id,rating);
+            filmer.add(nyfilm);
         }
+        System.out.println("Størrelsen: "+filmer.size());
 
+    }
+
+    public void hentNyeFilmer() throws Exception {
+        if(sideApi >= sisteApi){
+            sideApi =0;
+
+        } else {
+            sideApi++;
+            JSONObject filmliste = finnApi.httpEtterFilm(sideApi);
+            // finner maks antall sider;
+            sisteApi = filmliste.getInt("total_pages");
+            // Gjør JSON om til array
+            JSONArray filmlisteArray = filmliste.getJSONArray("results");
+            leggInnFilm(filmlisteArray);
+        }
     }
 
 }
