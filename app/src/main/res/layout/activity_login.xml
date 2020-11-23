@@ -18,7 +18,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="82dp"
         android:text="Hello there, welcome to Movie Match"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
@@ -30,10 +30,11 @@
         android:text="Sign in to continue"
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_height="389dp"
+        android:layout_marginTop="1dp"
         android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
@@ -44,13 +45,11 @@
             android:layout_height="wrap_content"
             android:hint="Email"
             android:textColorHint="#FFFFFF"
-            app:hintTextColor="#FBF9F9"
-            >
+            app:hintTextColor="#FBF9F9">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,8 +63,7 @@
             app:boxStrokeColor="#FFFFFF"
             app:helperTextTextColor="#FFFFFF"
             app:passwordToggleEnabled="true"
-            app:placeholderTextColor="#FFFFFF"
-            >
+            app:placeholderTextColor="#FFFFFF">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -77,35 +75,59 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/forgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
             android:layout_gravity="right"
             android:layout_margin="5dp"
             android:background="#00FFFFFF"
             android:elevation="0dp"
             android:text="Forgotten password?"
-            android:textColor="#FFFFFF"
-            android:id="@+id/forgotPassword"/>
+            android:textColor="#FFFFFF" />
 
         <Button
+            android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="35dp"
+
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="#6C63FF"
-            android:text="Sign in"
-            android:id="@+id/signInButton"
-            />
+            android:radius="10dp"
+            android:text="Sign in" />
 
         <Button
+            android:id="@+id/signup_screen"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="#6C63FF"
-            android:text="New User? Sign up"
-            android:id="@+id/signup_screen"
-            />
+            android:text="New User? Sign up" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="__________ or __________"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/google_signin"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:background="#4285F4"
+            android:drawableLeft="@drawable/common_google_signin_btn_icon_dark"
+            android:radius="10dp"
+            android:text="Sign in with Google"
+            android:textColor="#FFFFFF" />
+
+
 
     </LinearLayout>
 
