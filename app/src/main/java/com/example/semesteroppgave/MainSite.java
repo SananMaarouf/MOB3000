@@ -50,7 +50,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     NavigationView navigationView;
 
     // Informasjon
-    private TextView duration;
+    private TextView release;
     private TextView title;
     private CardView bilde;
     private Button like;
@@ -73,7 +73,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
 
-        duration = findViewById(R.id.duration);
+        release = findViewById(R.id.release);
         title = findViewById(R.id.title);
         bilde = findViewById(R.id.image);
         like = findViewById(R.id.like);
@@ -100,7 +100,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 try {
-                    settFilm(title,bilde,duration);
+                    settFilm(title,bilde,release);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -111,14 +111,14 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 try {
-                    settFilm(title,bilde,duration);
+                    settFilm(title,bilde,release);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
     }
-    private void settFilm(TextView title, CardView bilde, TextView duration) throws Exception {
+    private void settFilm(TextView title, CardView bilde, TextView release) throws Exception {
         System.out.println("Er på filmnr: "+erPaFilm);
         System.out.println("Er på sidenr: "+sideApi);
         if(erPaFilm == filmer.size()){
@@ -129,7 +129,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         }else{
             Movie filmen = filmer.get(erPaFilm);
             title.setText(filmen.getName());
-            duration.setText(filmen.getDuration());
+            release.setText(filmen.getRelease());
             erPaFilm++;
         }
 
@@ -171,13 +171,13 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
 
             String name = filmen.getString("title");
             String image = filmen.getString("poster_path");
-            String duration = filmen.getString("release_date");
+            String release = filmen.getString("release_date");
             String overview = filmen.getString("overview");
             String id = filmen.getString("id");
             float rating = Float.parseFloat(filmen.getString("vote_average"));
 
             // lager objektet
-            Movie nyfilm = new Movie(name,image,duration,overview,id,rating);
+            Movie nyfilm = new Movie(name,image,release,overview,id,rating);
             filmer.add(nyfilm);
         }
         System.out.println("Størrelsen: "+filmer.size());

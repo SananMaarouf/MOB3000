@@ -3,15 +3,15 @@ package com.example.semesteroppgave;
 public class Movie {
     private String name;
     private String image;
-    private String duration;
+    private String release;
     private String overview;
     private String id;
     private float rating;
 
-    public Movie(String name, String image, String duration, String overview, String id, float rating) {
+    public Movie(String name, String image, String release, String overview, String id, float rating) {
         this.name = name;
         this.image = image;
-        this.duration = duration;
+        this.release = release;
         this.overview = overview;
         this.id = id;
         this.rating = rating;
@@ -25,11 +25,11 @@ public class Movie {
         return image;
     }
 
-    public String getDuration() {
-        return duration;
+    public String getRelease() {
+        return release;
     }
 
     public String toString(){
-        return name +" "+image+" " + duration;
+        return name +" "+image+" " + release;
     }
 }
