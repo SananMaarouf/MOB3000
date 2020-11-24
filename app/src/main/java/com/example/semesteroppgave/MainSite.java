@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -51,6 +52,8 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     private Button dislike;
     private TextView rating;
     private TextView overview;
+    private String url = "https://i.picsum.photos/id/581/200/300.jpg?hmac=Xsg_aDXsNDPBGUvQPMKuMn2f4XS6zkrgh0vnl2lzljk";
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +74,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
 
         release = findViewById(R.id.release);
         title = findViewById(R.id.title);
-        bilde = (ImageView) findViewById(R.id.image);
+        bilde = findViewById(R.id.image);
         like = findViewById(R.id.like);
         dislike = findViewById(R.id.dislike);
         rating = findViewById(R.id.rating);
@@ -131,6 +134,9 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             release.setText(filmen.getRelease());
             overview.setText(filmen.getOverview());
             rating.setText(filmen.getRating()+"");
+            Glide.with(this)
+                    .load(url)
+                    .into(bilde);
             erPaFilm++;
         }
 
@@ -143,7 +149,6 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         drawerLayout.closeDrawer(GravityCompat.START);
         if(menuItem.getItemId() == R.id.home) {
-
         }
         if(menuItem.getItemId()==R.id.session) {
         }
