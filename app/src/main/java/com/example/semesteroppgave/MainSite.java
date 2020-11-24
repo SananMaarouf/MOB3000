@@ -52,7 +52,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     private Button dislike;
     private TextView rating;
     private TextView overview;
-    private String url = "https://i.picsum.photos/id/581/200/300.jpg?hmac=Xsg_aDXsNDPBGUvQPMKuMn2f4XS6zkrgh0vnl2lzljk";
+    private String url = "https://image.tmdb.org/t/p/w500";
 
 
 
@@ -135,7 +135,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             overview.setText(filmen.getOverview());
             rating.setText(filmen.getRating()+"");
             Glide.with(this)
-                    .load(url)
+                    .load(url+filmen.getImage())
                     .into(bilde);
             erPaFilm++;
         }
