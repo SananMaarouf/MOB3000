@@ -22,15 +22,7 @@ public class FinnApi {
         String respons = scanner.useDelimiter("\\>").next();
         JSONObject objektet = new JSONObject(respons);
 
-
-
-        //JSONArray jArray = objektet.getJSONArray("results");
-
-        return objektet;
-
         // printer ut alle filmene i rekkefølge
-
-
-
+        return objektet;
     }
 }
