@@ -20,16 +20,23 @@ public class Movie {
     public String getName() {
         return name;
     }
-
     public String getImage() {
         return image;
     }
-
     public String getRelease() {
         return release;
     }
-
+    public String getOverview(){
+        return overview;
+    }
+    public String getId(){
+        return id;
+    }
+    public float getRating(){
+        return rating;
+    }
     public String toString(){
+
         return name +" "+image+" " + release;
     }
 }

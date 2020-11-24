@@ -49,6 +49,8 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     private ImageView bilde;
     private Button like;
     private Button dislike;
+    private TextView rating;
+    private TextView overview;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +71,12 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
 
         release = findViewById(R.id.release);
         title = findViewById(R.id.title);
-        bilde = findViewById(R.id.image);
+        bilde = (ImageView) findViewById(R.id.image);
         like = findViewById(R.id.like);
         dislike = findViewById(R.id.dislike);
+        rating = findViewById(R.id.rating);
+        overview = findViewById(R.id.overview);
+
 
         // 93e7133aa45445f8651ca9eda8a953b5
         System.out.println("STØØØØØRELSE: "+filmer.size());
@@ -124,6 +129,8 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             Movie filmen = filmer.get(erPaFilm);
             title.setText(filmen.getName());
             release.setText(filmen.getRelease());
+            overview.setText(filmen.getOverview());
+            rating.setText(filmen.getRating()+"");
             erPaFilm++;
         }
 
