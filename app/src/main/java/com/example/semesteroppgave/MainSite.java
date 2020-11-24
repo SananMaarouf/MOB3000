@@ -94,7 +94,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 try {
-                    settFilm(title,bilde,duration);
+                    settFilm(title,bilde,release);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
