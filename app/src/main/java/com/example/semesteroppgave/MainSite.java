@@ -6,24 +6,18 @@ import android.os.StrictMode;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +46,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     // Informasjon
     private TextView duration;
     private TextView title;
-    private CardView bilde;
+    private ImageView bilde;
     private Button like;
     private Button dislike;
 
@@ -118,7 +112,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
     }
-    private void settFilm(TextView title, CardView bilde, TextView duration) throws Exception {
+    private void settFilm(TextView title, ImageView bilde, TextView duration) throws Exception {
         System.out.println("Er på filmnr: "+erPaFilm);
         System.out.println("Er på sidenr: "+sideApi);
         if(erPaFilm == filmer.size()){
@@ -142,23 +136,17 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         drawerLayout.closeDrawer(GravityCompat.START);
         if(menuItem.getItemId() == R.id.home) {
-
         }
-
         if(menuItem.getItemId()==R.id.session) {
-
         }
 
         if(menuItem.getItemId()==R.id.settings){
-
         }
-
         if (menuItem.getItemId() == R.id.logout) {
             Intent intent = new Intent(MainSite.this, Login.class);
             startActivity(intent);
             finish();
         }
-
         return true;
     }
 
