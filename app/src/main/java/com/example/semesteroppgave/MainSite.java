@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -49,7 +50,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     private ImageView bilde;
     private Button like;
     private Button dislike;
-
+    private String url = "https://i.picsum.photos/id/581/200/300.jpg?hmac=Xsg_aDXsNDPBGUvQPMKuMn2f4XS6zkrgh0vnl2lzljk";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +125,9 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             Movie filmen = filmer.get(erPaFilm);
             title.setText(filmen.getName());
             duration.setText(filmen.getDuration());
+            Glide.with(this)
+                    .load(url)
+                    .into(bilde);
             erPaFilm++;
         }
 
