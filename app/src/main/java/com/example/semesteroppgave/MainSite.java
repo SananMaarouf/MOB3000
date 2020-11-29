@@ -25,6 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import KlasseKomponenter.FinnApi;
 
@@ -53,6 +55,9 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     private TextView rating;
     private TextView overview;
     private String url = "https://image.tmdb.org/t/p/w500";
+
+    // hardkodet innlogget bruker
+    String brukerID = "kekekek";
 
 
 
@@ -198,6 +203,26 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             JSONArray filmlisteArray = filmliste.getJSONArray("results");
             leggInnFilm(filmlisteArray);
         }
+    }
+
+    // Legger filmen inn i likt/ikke lik listen i db
+    public void leggFilmListe(String brukerID, String filmId, boolean liktUlikt){
+        Map<String, Object> filmer = new HashMap<>();
+        filmer.put("movieId", filmId);
+        filmer.put("likt", liktUlikt);
+
+        // Sjekker om filmen er likt eller disliket
+        // Likt = true
+        // Dislike = false
+        String navnCollection = null;
+        if(liktUlikt){
+            navnCollection = "filmLike";
+        } else{
+            navnCollection = "filmDislike";
+        }
+        // legger inn i db
+        db.collection("Users").document(brukerID)
+                .collection(navnCollection).document()
     }
 
 }
