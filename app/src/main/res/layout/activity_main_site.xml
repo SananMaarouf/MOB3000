@@ -7,15 +7,129 @@
     tools:context="MainSite"
     android:id="@+id/drawer">
 
-    <include
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/drawer_toolbar"/>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="20dp">
+
+            <Button
+                android:id="@+id/dislike"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:text="Dislike" />
+
+            <Button
+                android:id="@+id/like"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:text="Like" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview"
+                android:layout_width="match_parent"
+                android:layout_height="312dp"
+                android:translationY="120dp">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:src="@tools:sample/avatars" />
+            </androidx.cardview.widget.CardView>
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="153dp"
+                android:layout_height="34dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:fontFamily="sans-serif-black"
+            android:text="title"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
+        <TextView
+            android:id="@+id/release"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="65dp"
+            android:layout_marginEnd="270dp"
+            android:drawableLeft="@drawable/date"
+            android:fontFamily="sans-serif-black"
+            android:text="Release date"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="270dp"
+            android:layout_marginTop="65dp"
+            android:drawableLeft="@drawable/ic_baseline_star_rate_24"
+            android:fontFamily="sans-serif-black"
+            android:text="Rating"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="300dp"
+            android:fontFamily="sans-serif-black"
+            android:text="overview"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/content_main"/>
+        layout="@layout/drawer_toolbar"/>
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="match_parent"
@@ -24,6 +138,8 @@
         app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/drawer_header"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"/>
+        android:fitsSystemWindows="true">
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

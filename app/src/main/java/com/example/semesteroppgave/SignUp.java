@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -32,9 +30,6 @@ public class SignUp extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
@@ -56,9 +51,6 @@ public class SignUp extends AppCompatActivity {
 
 
         callSignIn.setOnClickListener(new View.OnClickListener() {
-
-
-
             @Override
             public void onClick(View view){
 
@@ -69,26 +61,15 @@ public class SignUp extends AppCompatActivity {
                 // sjekker om passordene e like
                 if(passwordText.toString().equals(password2Text.toString())){
                     System.out.println("Like");
-
                     regUser(emailText, passwordText);
-
-
-
-
                 } else {
                     Toast.makeText(SignUp.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
                 }
-
                 System.out.println(emailText);
                 System.out.println(passwordText);
                 System.out.println(password2Text);
-
-
-
             }
         });
-
-
     }
     // legger inn data
     public void regUser(Editable email, Editable password){
@@ -96,14 +77,12 @@ public class SignUp extends AppCompatActivity {
         user.put("password", password.toString());
         user.put("email", email.toString());
 
-
         db.collection("Users").document(email.toString()).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
-
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(SignUp.this, Home.class);
+                        Intent intent = new Intent(SignUp.this, MainSite.class);
                         startActivity(intent);
                         finish();
                     }
