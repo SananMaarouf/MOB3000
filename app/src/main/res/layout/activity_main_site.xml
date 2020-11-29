@@ -60,6 +60,12 @@
                     tools:src="@tools:sample/avatars" />
             </androidx.cardview.widget.CardView>
 
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="153dp"
+                android:layout_height="34dp"
+                android:layout_weight="1" />
+
         </LinearLayout>
 
         <TextView
@@ -124,11 +130,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/drawer_toolbar"/>
-
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/content_main"/>
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="match_parent"

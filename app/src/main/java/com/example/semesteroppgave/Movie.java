@@ -1,5 +1,9 @@
 package com.example.semesteroppgave;
 
+import java.util.ArrayList;
+
+import KlasseKomponenter.StreamingService;
+
 public class Movie {
     private String name;
     private String image;
@@ -7,6 +11,8 @@ public class Movie {
     private String overview;
     private String id;
     private float rating;
+
+    private ArrayList<StreamingService> streamList = new ArrayList<>();
 
     public Movie(String name, String image, String release, String overview, String id, float rating) {
         this.name = name;
@@ -39,4 +45,15 @@ public class Movie {
 
         return name +" "+image+" " + release;
     }
+
+    // legge til listen
+    public void addStreamingService(StreamingService stream){
+        streamList.add(stream);
+    }
+
+    // hente listen
+    public ArrayList getStreamlist(){
+        return streamList;
+    }
+
 }

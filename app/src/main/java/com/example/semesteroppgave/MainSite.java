@@ -125,9 +125,12 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
     }
+
+    // Setter neste film i appen
     private void settFilm(TextView title, ImageView bilde, TextView release) throws Exception {
         System.out.println("Er på filmnr: "+erPaFilm);
         System.out.println("Er på sidenr: "+sideApi);
+        // Sjekker om det er siste filmen på siden
         if(erPaFilm == filmer.size()){
             erPaFilm=0;
             filmer.clear();
@@ -185,18 +188,21 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             // lager objektet
             Movie nyfilm = new Movie(name,image,release,overview,id,rating);
             filmer.add(nyfilm);
+
         }
         System.out.println("Størrelsen: "+filmer.size());
 
     }
 
+    // henter nye filmer fra the movie database
     public void hentNyeFilmer() throws Exception {
         if(sideApi >= sisteApi){
             sideApi =0;
 
         } else {
             sideApi++;
-            JSONObject filmliste = finnApi.httpEtterFilm(sideApi);
+            String sokEtter="popular";
+            JSONObject filmliste = finnApi.httpEtterFilm(sideApi,sokEtter);
             // finner maks antall sider;
             sisteApi = filmliste.getInt("total_pages");
             // Gjør JSON om til array
