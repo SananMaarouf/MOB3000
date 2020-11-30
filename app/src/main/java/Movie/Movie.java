@@ -1,4 +1,4 @@
-package com.example.semesteroppgave;
+package Movie;
 
 import java.util.ArrayList;
 

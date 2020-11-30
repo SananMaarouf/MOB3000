@@ -20,10 +20,10 @@ public class FinnApi {
         
         if (sideTall==0){
             urlen = new URL(apiUrl+sokEtter+apiSearch+apiKey);
-            System.out.println(apiUrl+sokEtter+apiSearch+apiKey);
+            //System.out.println(apiUrl+sokEtter+apiSearch+apiKey);
         } else {
             urlen = new URL(apiUrl+sokEtter+apiSearch+apiKey+moreInf+sideTall);
-            System.out.println(apiUrl+sokEtter+apiSearch+apiKey+moreInf+sideTall);
+           // System.out.println(apiUrl+sokEtter+apiSearch+apiKey+moreInf+sideTall);
         }
 
 

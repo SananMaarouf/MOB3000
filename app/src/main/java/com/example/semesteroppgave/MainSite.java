@@ -17,11 +17,15 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -29,11 +33,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import KlasseKomponenter.FinnApi;
+import Movie.Movie;
+import Movie.MovieChecked;
 
 public class MainSite extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<Movie> filmer = new ArrayList<>();
+    ArrayList<Movie> faktiskeFilmer = new ArrayList<>();
+
+    // liste over likte og ulikte filmer
+    ArrayList<MovieChecked> moviesRanked = new ArrayList<>();
+   // ArrayList<Movie> dislikeFilm = new ArrayList<>();
+
     int erPaFilm = 0;
     // holder kontroll på hvilke side apien er på
     int sideApi = 1;
@@ -55,10 +67,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     private TextView rating;
     private TextView overview;
     private String url = "https://image.tmdb.org/t/p/w500";
-
-    // hardkodet innlogget bruker
-    String brukerID = "kekekek";
-
+    String brukerId = "kekekek";
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,28 +94,43 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         rating = findViewById(R.id.rating);
         overview = findViewById(R.id.overview);
 
+        hentFilmerDB();
+        // System.out.println("Størrelse totalt: "+moviesRanked.size());
 
         // 93e7133aa45445f8651ca9eda8a953b5
-        System.out.println("STØØØØØRELSE: "+filmer.size());
+
 
         // prøver å hente ut informasjon
         try {
-
-            JSONObject filmliste = finnApi.httpEtterFilm(sideApi);
+            // Hva du skal søke på
+            String sokEtter="popular";
+            JSONObject filmliste = finnApi.httpEtterFilm(sideApi,sokEtter);
             // finner maks antall sider;
             sisteApi = filmliste.getInt("total_pages");
             // Gjør JSON om til array
             JSONArray filmlisteArray = filmliste.getJSONArray("results");
+
             leggInnFilm(filmlisteArray);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //  System.out.println("STØØØØØRELSE: "+filmer.size());
 
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
+                    if(erPaFilm!=0){
+                        // Legg inn filmen
+                        Movie filmen = faktiskeFilmer.get(erPaFilm-1);
+                        MovieChecked filmChecked = new MovieChecked(filmen.getName(), filmen.getImage(),filmen.getRelease(),filmen.getOverview(),filmen.getId(),filmen.getRating(),true);
+                        moviesRanked.add(filmChecked);
+                        leggFilmListe(brukerId, filmChecked);
+                    }
+                  //  leggFilmListe(brukerId, filmer.get(erPaFilm).getId(), true);
+                 //   moviesRanked.add(filmer.get(erPaFilm));
+
                     settFilm(title,bilde,release);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -118,6 +142,17 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 try {
+                    if(erPaFilm!=0){
+                        // Legg inn filmen
+                        Movie filmen = faktiskeFilmer.get(erPaFilm-1);
+                        MovieChecked filmChecked = new MovieChecked(filmen.getName(), filmen.getImage(),filmen.getRelease(),filmen.getOverview(),filmen.getId(),filmen.getRating(),false);
+                        moviesRanked.add(filmChecked);
+                        leggFilmListe(brukerId, filmChecked);
+
+                    }
+                  //  leggFilmListe(brukerId, filmer.get(erPaFilm).getId(), false);
+                 //   moviesRanked.add(filmer.get(erPaFilm));
+
                     settFilm(title,bilde,release);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -128,16 +163,17 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
 
     // Setter neste film i appen
     private void settFilm(TextView title, ImageView bilde, TextView release) throws Exception {
-        System.out.println("Er på filmnr: "+erPaFilm);
-        System.out.println("Er på sidenr: "+sideApi);
+        //System.out.println("Er på filmnr: "+erPaFilm);
+        // System.out.println("Er på sidenr: "+sideApi);
         // Sjekker om det er siste filmen på siden
-        if(erPaFilm == filmer.size()){
+        if(erPaFilm == faktiskeFilmer.size()){
             erPaFilm=0;
+            faktiskeFilmer.clear();
             filmer.clear();
             hentNyeFilmer();
 
         }else{
-            Movie filmen = filmer.get(erPaFilm);
+            Movie filmen = faktiskeFilmer.get(erPaFilm);
             title.setText(filmen.getName());
             release.setText(filmen.getRelease());
             overview.setText(filmen.getOverview());
@@ -147,10 +183,6 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
                     .into(bilde);
             erPaFilm++;
         }
-
-
-
-
     }
 
     @Override
@@ -173,7 +205,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
 
 
     // legger inn filmene fra moviedatabase i listen vår
-    public void leggInnFilm(JSONArray filmliste) throws JSONException {
+    public void leggInnFilm(JSONArray filmliste) throws Exception {
         // henter ut informasjon om hver film en etter en
         for(int i=0; i< filmliste.length(); i++){
             JSONObject filmen = filmliste.getJSONObject(i);
@@ -187,10 +219,16 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
 
             // lager objektet
             Movie nyfilm = new Movie(name,image,release,overview,id,rating);
+
+            // sjekker om filmen er testet før hvis true legg til i listen
+            //boolean filmFinnes = sjekkFilm(nyfilm);
             filmer.add(nyfilm);
 
         }
-        System.out.println("Størrelsen: "+filmer.size());
+        sjekkFilm();
+        settFilm(title,bilde,release);
+        //sjekkFilm();
+        //System.out.println("Størrelsen: "+filmer.size());
 
     }
 
@@ -212,23 +250,71 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     // Legger filmen inn i likt/ikke lik listen i db
-    public void leggFilmListe(String brukerID, String filmId, boolean liktUlikt){
+    public void leggFilmListe(String brukerID, MovieChecked filmen){
         Map<String, Object> filmer = new HashMap<>();
-        filmer.put("movieId", filmId);
-        filmer.put("likt", liktUlikt);
+        filmer.put("name", filmen.getName());
+        filmer.put("image", filmen.getImage());
+        filmer.put("release", filmen.getRelease());
+        filmer.put("id", filmen.getId());
+        filmer.put("overview", filmen.getOverview());
+        filmer.put("rating", filmen.getRating()+"");
+        filmer.put("likt", filmen.getLiked());
 
-        // Sjekker om filmen er likt eller disliket
-        // Likt = true
-        // Dislike = false
-        String navnCollection = null;
-        if(liktUlikt){
-            navnCollection = "filmLike";
-        } else{
-            navnCollection = "filmDislike";
-        }
         // legger inn i db
         db.collection("Users").document(brukerID)
-                .collection(navnCollection).document()
+                .collection("film").document(filmen.getId()).set(filmer)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //System.out.println(filmen.getId());
+                    }
+                });
     }
 
+    // sjekker om filmen er likt/disliked
+    // sjekker via db atm, kanskje sjekke internt i programmet
+    public void sjekkFilm() {
+        for (Movie filmene : filmer) {
+            db.collection("Users").document(brukerId)
+                    .collection("film").whereEqualTo("id", filmene.getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        //System.out.println("Filmen finnes allerede");
+                    }
+                    if (task.getResult().isEmpty()) {
+                        faktiskeFilmer.add(filmene);
+                    }
+                }
+
+
+            });
+        }
+    }
+
+    public void hentFilmerDB(){
+        // Finner filmer
+        db.collection("Users").document(brukerId)
+                .collection("film").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    for(QueryDocumentSnapshot document: task.getResult()){
+                        String navn = document.getString("name");
+                        String image = document.getString("image");
+                        String release = document.getString("release");
+                        String id = document.getString("id");
+                        String overview = document.getString("overview");
+                        float rating = Float.parseFloat(document.getString("rating"));
+                        boolean liked = document.getBoolean("likt");
+
+                        MovieChecked filmen = new MovieChecked(navn,image,release,overview,id,rating, liked);
+                        moviesRanked.add(filmen);
+                    }
+                }
+            }
+        });
+
+
+    }
 }
