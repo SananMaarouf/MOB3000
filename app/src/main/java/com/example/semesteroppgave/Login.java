@@ -54,12 +54,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user !=null){
-            Intent intent = new Intent(getApplicationContext(),MainSite.class);
-            startActivity(intent);
-        }
     }
 
     @Override
@@ -137,6 +132,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void signIn() {
+        mGoogleSignInClient.signOut();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -173,6 +169,7 @@ public class Login extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent = new Intent(getApplicationContext(), MainSite.class);
                             startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(Login.this, "Sorry signin failed.", Toast.LENGTH_SHORT).show();
                         }
