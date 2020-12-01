@@ -1,6 +1,7 @@
 package com.example.semesteroppgave;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.MenuItem;
@@ -21,6 +22,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -39,6 +42,7 @@ import Movie.MovieChecked;
 public class MainSite extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<Movie> filmer = new ArrayList<>();
     ArrayList<Movie> faktiskeFilmer = new ArrayList<>();
 
@@ -61,6 +65,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     // Informasjon
     private TextView release;
     private TextView title;
+    private TextView textheader;
     private ImageView bilde;
     private Button like;
     private Button dislike;
@@ -68,7 +73,6 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     private TextView overview;
     private String url = "https://image.tmdb.org/t/p/w500";
     String brukerId = "kekekek";
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +84,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -159,6 +164,21 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
                 }
             }
         });
+        //Getting user information from firebase
+        if (user != null) {
+            String name = user.getDisplayName();
+            Uri photo = user.getPhotoUrl();
+            NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
+            View headerView = navigationView.getHeaderView(0);
+            TextView headername = (TextView) headerView.findViewById(R.id.headertext);
+            headername.setText(name);
+            ImageView headerpic = (ImageView) headerView.findViewById(R.id.headerpic);
+            Glide.with(this)
+                    .load(photo)
+                    .into(headerpic);
+            //headerpic.setImageURI(photo);
+            //textheader.findViewById(R.id.drawerHeader);
+        }
     }
 
     // Setter neste film i appen
@@ -189,6 +209,9 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         drawerLayout.closeDrawer(GravityCompat.START);
         if(menuItem.getItemId() == R.id.home) {
+            Intent intent = new Intent(MainSite.this, MainSite.class);
+            startActivity(intent);
+            finish();
         }
         if(menuItem.getItemId()==R.id.session) {
         }
@@ -196,6 +219,8 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         if(menuItem.getItemId()==R.id.settings){
         }
         if (menuItem.getItemId() == R.id.logout) {
+            FirebaseAuth.getInstance().signOut();
+
             Intent intent = new Intent(MainSite.this, Login.class);
             startActivity(intent);
             finish();

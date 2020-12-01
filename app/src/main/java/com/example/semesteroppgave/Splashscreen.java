@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Splashscreen extends AppCompatActivity {
-    private static int SPLASH_SCREEN = 0;
+    private static int SPLASH_SCREEN = 1500;
     //variables
     Animation topAnim, bottomAnim;
     ImageView image;
@@ -64,7 +64,7 @@ public class Splashscreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(Splashscreen.this, MainSite.class);
+                Intent intent = new Intent(Splashscreen.this, Login.class);
                 Pair[] pairs = new Pair[2];
                 pairs[0] = new Pair<View, String>(image, "logoImage");
                 pairs[1] = new Pair<View, String>(logo, "logoText");
