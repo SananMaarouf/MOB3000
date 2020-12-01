@@ -72,7 +72,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     private TextView rating;
     private TextView overview;
     private String url = "https://image.tmdb.org/t/p/w500";
-    String brukerId = "kekekek";
+    String brukerId = "ratCity";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -214,6 +214,8 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             finish();
         }
         if(menuItem.getItemId()==R.id.session) {
+            Intent intent = new Intent(MainSite.this, Session.class);
+            startActivity(intent);
         }
 
         if(menuItem.getItemId()==R.id.settings){
