@@ -15,7 +15,6 @@
         android:layout_marginTop="368dp"
         android:layout_marginEnd="90dp"
         android:text="Empty1"
-        app:layout_constraintEnd_toEndOf="@+id/btn_finnFilm"
         app:layout_constraintHorizontal_bias="0.133"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -31,7 +30,6 @@
         android:layout_marginBottom="19dp"
         android:text="Empty2"
         app:layout_constraintBottom_toTopOf="@+id/bruker3"
-        app:layout_constraintEnd_toStartOf="@+id/btn_finnFilm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bruker1"
         tools:ignore="MissingConstraints" />
@@ -46,7 +44,6 @@
         android:layout_marginBottom="302dp"
         android:text="Empty3"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_finnFilm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bruker2"
         tools:ignore="MissingConstraints" />
@@ -62,7 +59,6 @@
         android:text="Empty4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_finnFilm"
         app:layout_constraintTop_toBottomOf="@+id/bruker6"
         tools:ignore="MissingConstraints" />
 
@@ -75,38 +71,28 @@
         android:layout_marginEnd="49dp"
         android:layout_marginBottom="12dp"
         android:text="Empty5"
-        app:layout_constraintBottom_toTopOf="@+id/btn_finnFilm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/bruker6"
+    <Button
+        android:id="@+id/btn_finnSession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="49dp"
-        android:layout_marginBottom="9dp"
-        android:text="Empty6"
-        app:layout_constraintBottom_toTopOf="@+id/bruker4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_finnFilm"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginBottom="78dp"
+        android:text="Find Session"
+        app:layout_constraintBottom_toTopOf="@+id/bruker3"
+        app:layout_constraintEnd_toStartOf="@+id/bruker4"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bruker5"
         tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/btn_finnFilm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find movies"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="316dp" />
-
     <TextView
-        android:id="@+id/sessionId"
+        android:id="@+id/SessionIDInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="200dp"
@@ -117,5 +103,17 @@
         app:layout_constraintHorizontal_bias="0.034"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="195dp"
+        tools:layout_editor_absoluteY="160dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="SessionIDInput" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

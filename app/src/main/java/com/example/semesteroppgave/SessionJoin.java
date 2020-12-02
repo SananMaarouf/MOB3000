@@ -1,5 +1,6 @@
 package com.example.semesteroppgave;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -24,15 +27,15 @@ public class SessionJoin extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     // Liste med aktive brukere i session
     ArrayList<String> brukereSession = new ArrayList<>();
+    boolean isInSession = false;
 
-
-    Button btn_finnFilm;
+    Button btn_finnSession;
+    private TextInputLayout SessionIDInput;
     private TextView bruker1;
     private TextView bruker2;
     private TextView bruker3;
     private TextView bruker4;
     private TextView bruker5;
-    private TextView bruker6;
     private TextView sessionId;
 
     // Innloggede bruker/ party leader
@@ -43,17 +46,20 @@ public class SessionJoin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_session);
+        setContentView(R.layout.activity_sessionjoin);
         getSupportActionBar().hide();
 
         // setter filedsene
-        btn_finnFilm = findViewById(R.id.btn_finnFilm);
+        btn_finnSession = findViewById(R.id.btn_finnSession);
+
         sessionId = findViewById(R.id.sessionId);
         bruker1 = findViewById(R.id.bruker1);
         bruker2 = findViewById(R.id.bruker2);
         bruker3 = findViewById(R.id.bruker3);
         bruker4 = findViewById(R.id.bruker4);
         bruker5 = findViewById(R.id.bruker5);
+
+
 
         // Setter arralisisten til å inneholde null verider for alle plassene
         brukereSession.add(null);
@@ -67,16 +73,12 @@ public class SessionJoin extends AppCompatActivity {
 
         // Oppretter session og setter brukernavnet inn
        // createSession();
-        bruker1.setText(brukerid);
-        sessionId.setText("SessionID: #"+sessionidDB);
+        //bruker1.setText(brukerid);
+        sessionId.setText("SessionJoinID: #"+sessionidDB);
 
-        btn_finnFilm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                joinSession(sessionidDB);
-            }
-        });
+
+
 
 
 
@@ -91,24 +93,32 @@ public class SessionJoin extends AppCompatActivity {
 
     // Sjekk for om bruker har en session som er aktiv, en bruker kan bare ha en aktiv session om gangen
     // endre til "contains i array" VIKTIG
+    // Sjekk for om bruker har en session som er aktiv, en bruker kan bare ha en aktiv session om gangen
     public void hasActiveSession(){
-        db.collection("Session").whereEqualTo("admin", brukerid)
-                .whereEqualTo("active", true).get()
+        CollectionReference bruker = db.collection("Users");
+        bruker.whereEqualTo("email", brukerid).whereEqualTo("active", true).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.getResult().isEmpty()){
-                            // Finner ingen aktive sessions, pressenter muligheter for å joine en session
-                           // joinSession(sessionidDB);
-                            Toast.makeText(SessionJoin.this, "No active session", Toast.LENGTH_LONG).show();
-
-                        } else {
-                            // Allerede aktiv i en session, vis den aktive sessionen
-                            Toast.makeText(SessionJoin.this, "Already active in an session, leave before making an new one", Toast.LENGTH_LONG).show();
-                            finnAktiveSession(sessionidDB);
+                        if(task.isSuccessful()){
+                            if (task.getResult().isEmpty()){
+                                // Har ingen aktiv session, kan opprette en ny session
+                                isInSession = false;
+                                Toast.makeText(SessionJoin.this, "You have no current session, join or create one", Toast.LENGTH_SHORT).show();
+                                btn_finnSession.setVisibility(View.VISIBLE);
+                            } else {
+                                // Er allerede medlem av en session, vises til den
+                                finnAktiveSession(sessionidDB);
+                                Toast.makeText(SessionJoin.this, "You already have a session, you can only have 1 at a time", Toast.LENGTH_SHORT).show();
+                                isInSession = true;
+                                btn_finnSession.setVisibility(View.INVISIBLE);
+                            }
                         }
+
                     }
                 });
+
+
     }
 
     // finner den aktive sessionen og viser den
