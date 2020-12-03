@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Splashscreen extends AppCompatActivity {
-    private static int SPLASH_SCREEN = 1500;
+    private static int SPLASH_SCREEN = 0;
     //variables
     Animation topAnim, bottomAnim;
     ImageView image;
