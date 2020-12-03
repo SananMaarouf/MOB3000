@@ -2,8 +2,10 @@ package com.example.semesteroppgave;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -39,7 +42,7 @@ public class SessionJoin extends AppCompatActivity {
     private TextView sessionId;
 
     // Innloggede bruker/ party leader
-    String brukerid = "kekekek";
+    String brukerid = "ratCity";
     String sessionidDB = "420kekekek";
 
     @Override
@@ -52,14 +55,12 @@ public class SessionJoin extends AppCompatActivity {
         // setter filedsene
         btn_finnSession = findViewById(R.id.btn_finnSession);
 
-        sessionId = findViewById(R.id.sessionId);
+        SessionIDInput = findViewById(R.id.SessionIDInput);
         bruker1 = findViewById(R.id.bruker1);
         bruker2 = findViewById(R.id.bruker2);
         bruker3 = findViewById(R.id.bruker3);
         bruker4 = findViewById(R.id.bruker4);
         bruker5 = findViewById(R.id.bruker5);
-
-
 
         // Setter arralisisten til å inneholde null verider for alle plassene
         brukereSession.add(null);
@@ -74,19 +75,79 @@ public class SessionJoin extends AppCompatActivity {
         // Oppretter session og setter brukernavnet inn
        // createSession();
         //bruker1.setText(brukerid);
-        sessionId.setText("SessionJoinID: #"+sessionidDB);
+        //sessionId.setText("SessionJoinID: #"+sessionidDB);
 
+        btn_finnSession.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                Editable sessionTallet = SessionIDInput.getEditText().getText();
 
-
-
-
+                //Toast.makeText(SessionJoin.this, sessionTallet.toString(), Toast.LENGTH_SHORT).show();
+                joinSession(sessionTallet.toString());
+            }
+        });
 
     }
 
 
     // Join session
     public void joinSession(String sessionIden){
+        // Sjekk om sessioniden eksisterer
+        db.collection("Session").whereEqualTo("sessionId", sessionIden)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    if(task.getResult().isEmpty()){
+                        Toast.makeText(SessionJoin.this, "Did not find session", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        // Session eksisterer, sjekk om det er plass i den
+                        db.collection("Session").document(sessionIden)
+                                .collection("Users").get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if(task.getResult().size()<=5){
+                                            int tallet = task.getResult().size()+1;
+
+                                            String brukernr = "bruker"+ tallet;
+                                            Map<String, Object> dataen = new HashMap<>();
+                                            dataen.put(brukernr, brukerid);
+                                            // Det er plass, legg bruker til
+                                            db.collection("Session").document(sessionIden).collection("Users")
+                                                    .document("AlleBrukere").update(dataen).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    // Sett bruker som aktive
+                                                    Map<String, Object> brukerAktiv = new HashMap<>();
+                                                    brukerAktiv.put("active", true);
+
+                                                    db.collection("Users").document(brukerid).update(brukerAktiv)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+                                                                    // Lagt til
+                                                                    Toast.makeText(SessionJoin.this, "", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+
+                                                }
+                                            });
+
+                                        } else {
+                                            // er ikke plass gi bedkjed
+                                            Toast.makeText(SessionJoin.this, "Session is full", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                });
+
+                    }
+                }
+            }
+        });
 
 
     }
