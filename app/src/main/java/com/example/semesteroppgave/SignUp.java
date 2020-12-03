@@ -90,6 +90,7 @@ public class SignUp extends AppCompatActivity {
                                         // Legger til i db
                                         Map<String, Object> bruker = new HashMap<>();
                                         bruker.put("active", false);
+                                        bruker.put("activeSession", "null");
                                         bruker.put("email", user.getEmail());
 
                                         db.collection("Users").document(user.getUid()).set(bruker).addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -125,9 +125,13 @@ public class SessionJoin extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                         if(task.getResult().size()<=5){
+                                            System.out.println("Task size " +task.getResult().size());
+
                                             int tallet = task.getResult().size()+1;
 
                                             String brukernr = "bruker"+ tallet;
+                                            System.out.println("Brukernr+tall "+brukernr);
+
                                             Map<String, Object> dataen = new HashMap<>();
                                             dataen.put(brukernr, brukerid);
                                             // Det er plass, legg bruker til
