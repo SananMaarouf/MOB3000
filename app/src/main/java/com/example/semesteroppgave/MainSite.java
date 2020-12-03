@@ -72,7 +72,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     private TextView rating;
     private TextView overview;
     private String url = "https://image.tmdb.org/t/p/w500";
-    String brukerId = "kekekek";
+    String brukerId = "ratCity";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +106,8 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
 
 
         // prøver å hente ut informasjon
+        // DET UNDER ER KOMMENTERT VEKK PGA TESTING
+        /*
         try {
             // Hva du skal søke på
             String sokEtter="popular";
@@ -120,6 +122,8 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+         */
         //  System.out.println("STØØØØØRELSE: "+filmer.size());
 
         like.setOnClickListener(new View.OnClickListener() {
@@ -215,10 +219,17 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             finish();
         }
         if(menuItem.getItemId()==R.id.session) {
+            Intent intent = new Intent(MainSite.this, Session.class);
+            startActivity(intent);
+            finish();
         }
 
         if(menuItem.getItemId()==R.id.settings){
+            Intent intent = new Intent(MainSite.this, SessionJoin.class);
+            startActivity(intent);
+            finish();
         }
+
         if (menuItem.getItemId() == R.id.logout) {
             FirebaseAuth.getInstance().signOut();
 

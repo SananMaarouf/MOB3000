@@ -11,6 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Semesteroppgave">
         <activity android:name=".SignUp" />
+        <activity android:name=".Session" />
+        <activity android:name=".SessionJoin" />
         <activity android:name=".Login" />
         <activity android:name=".Home" />
         <activity
