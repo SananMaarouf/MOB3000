@@ -64,6 +64,7 @@ public class Login extends AppCompatActivity {
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mAuth = FirebaseAuth.getInstance();
 
         callSignUp = findViewById(R.id.signup_screen);
         loginButton = findViewById(R.id.signInButton);
@@ -96,31 +97,27 @@ public class Login extends AppCompatActivity {
                 finish();
             }
         });
-
+        //LOGIN WITH EMAIL AND PASSWORD
         loginButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
                 Editable usernameText = username.getEditText().getText();
                 Editable passwordText = password.getEditText().getText();
 
-                CollectionReference brukerene = db.collection("Users");
-                brukerene.whereEqualTo("email", usernameText.toString()).whereEqualTo("password", passwordText.toString()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for (QueryDocumentSnapshot document : task.getResult()){
-                                System.out.println(document.getId() + " " + document.getData());
-                                Intent intent = new Intent(Login.this, MainSite.class);
-                                startActivity(intent);
-                                finish();
+                mAuth.signInWithEmailAndPassword(usernameText.toString(), passwordText.toString())
+                        .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    Intent intent = new Intent(Login.this, MainSite.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    Toast.makeText(Login.this, "Wrong email/password", Toast.LENGTH_SHORT);
+                                }
                             }
-                            if(task.getResult().isEmpty()){
-                                Toast.makeText(Login.this, "Wrong username/password", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            System.out.println(task.getException());
-                        }
-                    }
-                });
+                        });
+
 
             }
         });

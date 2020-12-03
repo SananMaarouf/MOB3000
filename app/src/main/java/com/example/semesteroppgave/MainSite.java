@@ -173,6 +173,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             TextView headername = (TextView) headerView.findViewById(R.id.headertext);
             headername.setText(name);
             ImageView headerpic = (ImageView) headerView.findViewById(R.id.headerpic);
+            headerpic.setImageURI(null);
             Glide.with(this)
                     .load(photo)
                     .into(headerpic);

@@ -10,9 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -27,6 +32,13 @@ public class SignUp extends AppCompatActivity {
     private TextInputLayout email;
     private TextInputLayout password;
     private TextInputLayout password2;
+    private FirebaseAuth mAuth;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +51,8 @@ public class SignUp extends AppCompatActivity {
         password = findViewById(R.id.password);
         password2 = findViewById(R.id.confirmPassword);
 
+        mAuth = FirebaseAuth.getInstance();
+
         // Returns user to login site
         returnSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,50 +62,42 @@ public class SignUp extends AppCompatActivity {
                 finish();
             }
         });
-
-
         callSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-
+            public void onClick(View view) {
                 Editable emailText = email.getEditText().getText();
                 Editable passwordText = password.getEditText().getText();
                 Editable password2Text = password2.getEditText().getText();
 
                 // sjekker om passordene e like
-                if(passwordText.toString().equals(password2Text.toString())){
+                if (passwordText.toString().equals(password2Text.toString())) {
                     System.out.println("Like");
-                    regUser(emailText, passwordText);
+                    //CREATE NEW USER BASED ON EMAIL AND PASSWORD
+                    mAuth.createUserWithEmailAndPassword(emailText.toString(), passwordText.toString())
+                            .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(SignUp.this, MainSite.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(SignUp.this, "Error: user not created", Toast.LENGTH_SHORT).show();
+                                        /* failed */
+                                    }
+                                }
+                            });
                 } else {
                     Toast.makeText(SignUp.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
                 }
-                System.out.println(emailText);
-                System.out.println(passwordText);
-                System.out.println(password2Text);
             }
         });
-    }
-    // legger inn data
-    public void regUser(Editable email, Editable password){
-        Map<String, Object> user = new HashMap<>();
-        user.put("password", password.toString());
-        user.put("email", email.toString());
 
-        db.collection("Users").document(email.toString()).set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(SignUp.this, MainSite.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(SignUp.this, "Error, user not created!", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 }
+
+
