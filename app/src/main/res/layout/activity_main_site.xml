@@ -28,7 +28,10 @@
                 android:layout_height="70dp"
                 android:layout_weight="1"
                 android:text="Dislike"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:background="#6C63FF"
+                />
+
 
 
             <Button
@@ -37,7 +40,9 @@
                 android:layout_height="70dp"
                 android:layout_weight="1"
                 android:text="Like"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:background="#6C63FF"
+                />
         </LinearLayout>
 
         <LinearLayout

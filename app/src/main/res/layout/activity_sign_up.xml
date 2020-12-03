@@ -104,15 +104,15 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:hint="Password"
-            app:counterEnabled="true"
             android:textColorHint="#FFFFFF"
             app:boxStrokeColor="#FFFFFF"
+            app:counterEnabled="true"
             app:helperTextTextColor="#FFFFFF"
             app:passwordToggleEnabled="true"
-            app:placeholderTextColor="#FFFFFF"
-            android:layout_marginBottom="10dp"
-            >
+            app:passwordToggleTint="#FFFFFF"
+            app:placeholderTextColor="#FFFFFF">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -129,12 +129,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Confirm password"
-            app:counterEnabled="true"
             android:textColorHint="#FFFFFF"
             app:boxStrokeColor="#FFFFFF"
+            app:counterEnabled="true"
             app:helperTextTextColor="#FFFFFF"
             app:passwordToggleEnabled="true"
-            app:placeholderTextColor="#FFFFFF"
+            app:passwordToggleTint="#FFFFFF"
+            app:placeholderTextColor="#FFFFFF">
             >
 
             <com.google.android.material.textfield.TextInputEditText

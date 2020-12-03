@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#3a3a3a"
+
     tools:context=".Session">
 
 
@@ -13,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="User 1"
+        android:textColor="#FFFFFF"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/bruker2"
@@ -28,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:text="User 2"
+        android:textColor="#FFFFFF"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/bruker3"
@@ -42,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User 3"
+        android:textColor="#FFFFFF"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -55,23 +60,26 @@
         android:layout_height="wrap_content"
         android:text="User 4"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.269"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="262dp" />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/bruker5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:text="User 5"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.768"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.269"
+        app:layout_constraintVertical_bias="0.279"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -83,6 +91,8 @@
         app:layout_constraintBottom_toTopOf="@+id/bruker3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
+        android:textColor="#FFFFFF"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.084" />
@@ -91,10 +101,13 @@
         android:id="@+id/btn_finnFilm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#6C63FF"
         android:text="Find movies"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bruker3"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="140dp" />
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
