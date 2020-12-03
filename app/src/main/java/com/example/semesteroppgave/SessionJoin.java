@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,7 +44,9 @@ public class SessionJoin extends AppCompatActivity {
     private TextView sessionId;
 
     // Innloggede bruker/ party leader
-    String brukerid = "ratCity";
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String brukerid = user.getUid();
+
     String sessionidDB = "420kekekek";
 
     @Override
@@ -129,7 +133,7 @@ public class SessionJoin extends AppCompatActivity {
                                                                 @Override
                                                                 public void onSuccess(Void aVoid) {
                                                                     // Lagt til
-                                                                    Toast.makeText(SessionJoin.this, "", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(SessionJoin.this, "Session Joined", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             });
 

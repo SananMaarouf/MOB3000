@@ -81,9 +81,23 @@ public class SignUp extends AppCompatActivity {
                                         // Sign in success, update UI with the signed-in user's information
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(SignUp.this, MainSite.class);
-                                        startActivity(intent);
-                                        finish();
+
+                                        // Legger til i db
+                                        Map<String, Object> bruker = new HashMap<>();
+                                        bruker.put("active", false);
+                                        bruker.put("email", user.getEmail());
+
+                                        db.collection("Users").document(user.getUid()).set(bruker).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Intent intent = new Intent(SignUp.this, MainSite.class);
+                                                startActivity(intent);
+                                                finish();
+
+                                            }
+                                        });
+
+
                                     }
                                     if (!task.isSuccessful()) {
                                         Toast.makeText(SignUp.this, "Error: user not created", Toast.LENGTH_SHORT).show();

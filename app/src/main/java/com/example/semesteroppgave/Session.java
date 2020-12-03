@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,7 +39,10 @@ public class Session extends AppCompatActivity {
     private TextView sessionId;
 
     // Innloggede bruker/ party leader
-    String brukerid = "kekekek";
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+    String brukerid = user.getUid();
+
     String sessionidDB = "420kekekek";
 
     @Override
