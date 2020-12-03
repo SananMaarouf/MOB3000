@@ -171,7 +171,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         //Getting user information from firebase
         if (user != null) {
             String name = user.getDisplayName();
-            Uri photo = user.getPhotoUrl();
+            Uri personPhoto = user.getPhotoUrl();
             NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
             View headerView = navigationView.getHeaderView(0);
             TextView headername = (TextView) headerView.findViewById(R.id.headertext);
@@ -179,7 +179,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             ImageView headerpic = (ImageView) headerView.findViewById(R.id.headerpic);
             headerpic.setImageURI(null);
             Glide.with(this)
-                    .load(photo)
+                    .load(personPhoto)
                     .into(headerpic);
             //headerpic.setImageURI(photo);
             //textheader.findViewById(R.id.drawerHeader);
