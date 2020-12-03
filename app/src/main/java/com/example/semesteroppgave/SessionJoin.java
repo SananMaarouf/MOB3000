@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +33,7 @@ public class SessionJoin extends AppCompatActivity {
     // Liste med aktive brukere i session
     ArrayList<String> brukereSession = new ArrayList<>();
     boolean isInSession = false;
+    String aktiveSession = "";
 
     Button btn_finnSession;
     private TextInputLayout SessionIDInput;
@@ -42,8 +45,12 @@ public class SessionJoin extends AppCompatActivity {
     private TextView sessionId;
 
     // Innloggede bruker/ party leader
-    String brukerid = "ratCity";
-    String sessionidDB = "420kekekek";
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String brukerid = user.getUid();
+
+    // setter iden
+
+    String sessionidDB = "SessionJoin #";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +88,18 @@ public class SessionJoin extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Editable sessionTallet = SessionIDInput.getEditText().getText();
+                // logge ut
+                if(isInSession){
+                    leaveSession();
 
-                //Toast.makeText(SessionJoin.this, sessionTallet.toString(), Toast.LENGTH_SHORT).show();
-                joinSession(sessionTallet.toString());
+                } else {
+                    // Joine
+                    Editable sessionTallet = SessionIDInput.getEditText().getText();
+
+                    //Toast.makeText(SessionJoin.this, sessionTallet.toString(), Toast.LENGTH_SHORT).show();
+                    joinSession(sessionTallet.toString());
+                }
+
             }
         });
 
@@ -123,13 +138,18 @@ public class SessionJoin extends AppCompatActivity {
                                                     // Sett bruker som aktive
                                                     Map<String, Object> brukerAktiv = new HashMap<>();
                                                     brukerAktiv.put("active", true);
+                                                    brukerAktiv.put("activeSession", sessionIden);
 
                                                     db.collection("Users").document(brukerid).update(brukerAktiv)
                                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                 @Override
                                                                 public void onSuccess(Void aVoid) {
                                                                     // Lagt til
-                                                                    Toast.makeText(SessionJoin.this, "", Toast.LENGTH_SHORT).show();
+                                                                    isInSession = true;
+                                                                    Toast.makeText(SessionJoin.this, "Session Joined", Toast.LENGTH_SHORT).show();
+                                                                    aktiveSession = sessionIden;
+                                                                    finnAktiveSession(sessionIden);
+
                                                                 }
                                                             });
 
@@ -157,7 +177,7 @@ public class SessionJoin extends AppCompatActivity {
     // Sjekk for om bruker har en session som er aktiv, en bruker kan bare ha en aktiv session om gangen
     public void hasActiveSession(){
         CollectionReference bruker = db.collection("Users");
-        bruker.whereEqualTo("email", brukerid).whereEqualTo("active", true).get()
+        bruker.whereEqualTo("email", user.getEmail()).whereEqualTo("active", true).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -166,13 +186,20 @@ public class SessionJoin extends AppCompatActivity {
                                 // Har ingen aktiv session, kan opprette en ny session
                                 isInSession = false;
                                 Toast.makeText(SessionJoin.this, "You have no current session, join or create one", Toast.LENGTH_SHORT).show();
-                                btn_finnSession.setVisibility(View.VISIBLE);
+                                sjekkKnappNavn();
+                               // btn_finnSession.setVisibility(View.VISIBLE);
                             } else {
                                 // Er allerede medlem av en session, vises til den
-                                finnAktiveSession(sessionidDB);
+                                String idenS = "null";
+                                for(QueryDocumentSnapshot document : task.getResult()){
+                                    idenS = document.getString("activeSession");
+                                }
+
+                                finnAktiveSession(idenS);
                                 Toast.makeText(SessionJoin.this, "You already have a session, you can only have 1 at a time", Toast.LENGTH_SHORT).show();
                                 isInSession = true;
-                                btn_finnSession.setVisibility(View.INVISIBLE);
+                                sjekkKnappNavn();
+                              //  btn_finnSession.setVisibility(View.INVISIBLE);
                             }
                         }
 
@@ -191,6 +218,7 @@ public class SessionJoin extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
+                            aktiveSession = idSession;
                             for(QueryDocumentSnapshot document: task.getResult()){
                                 // Kjører for antall brukere som er i sessionen
                                 int docSize = document.getData().size();
@@ -201,6 +229,7 @@ public class SessionJoin extends AppCompatActivity {
 
                                 }
                                 visAktiveBrukere();
+                                sjekkKnappNavn();
                             }
 
                         }
@@ -215,5 +244,100 @@ public class SessionJoin extends AppCompatActivity {
         bruker4.setText(brukereSession.get(3));
         bruker5.setText(brukereSession.get(4));
 
+    }
+
+    public void sjekkKnappNavn(){
+        if(isInSession){
+            // sett vist knapp til leave
+            btn_finnSession.setText("Leave session");
+
+
+        } else {
+            // sett knapp til finn session
+            btn_finnSession.setText("Find session");
+        }
+    }
+
+    // leave session
+    public void leaveSession(){
+        // Lager local liste med brukere
+        ArrayList<String> brukere = new ArrayList<>();
+        Map<String, Object> brukereH = new HashMap<>();
+        System.out.println("AKTIVE "+aktiveSession);
+
+        // finner session bruker er med i aktiveSession  bruker.whereEqualTo("email", user.getEmail()).whereEqualTo("active", true).get()
+        db.collection("Session").document(aktiveSession)
+                .collection("Users").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            resetBrukere();
+
+                            for(QueryDocumentSnapshot document: task.getResult()){
+                                int docSize = document.getData().size();
+                                for(int i=0;i<docSize;i++){
+                                    int valgtBruker = i+1;
+                                    // Legger til brukere i listen
+                                    brukereSession.set(i,(document.getString("bruker"+valgtBruker)));
+                                }
+
+
+                            }
+                            Map mappen = hentBrukere();
+                            resetBrukere();
+
+                            // setter inn den oppdaterte listen
+                            db.collection("Session").document(aktiveSession)
+                                    .collection("Users").document("AlleBrukere").set(mappen)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // brukere oppdatert
+                                            // oppdater active og activeSession i brukerdataen
+                                            Map<String, Object> brukerOpp = new HashMap<>();
+                                            brukerOpp.put("active", false);
+                                            brukerOpp.put("activeSession", "Null");
+                                            db.collection("Users").document(user.getUid()).update(brukerOpp)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            // alt klart, session leavet
+                                                            isInSession = false;
+                                                            visAktiveBrukere();
+                                                            sjekkKnappNavn();
+
+                                                        }
+                                                    });
+                                        }
+                                    });
+                        }
+                    }
+                });
+
+
+
+
+    }
+
+
+    public void resetBrukere(){
+        brukereSession.set(0, null);
+        brukereSession.set(1, null);
+        brukereSession.set(2, null);
+        brukereSession.set(3, null);
+        brukereSession.set(4, null);
+    }
+
+    // hent hashmap brukere
+    public Map hentBrukere(){
+        Map<String, Object> mappen = new HashMap<>();
+        String brukeren = "bruker";
+        for(int i=0; i<brukereSession.size();i++){
+            int intbruker = i+1;
+
+            mappen.put(brukeren+intbruker, brukereSession.get(i));
+        }
+        return mappen;
     }
 }

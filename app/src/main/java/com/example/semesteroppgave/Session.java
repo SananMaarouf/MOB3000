@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,8 +39,12 @@ public class Session extends AppCompatActivity {
     private TextView sessionId;
 
     // Innloggede bruker/ party leader
-    String brukerid = "kekekek";
-    String sessionidDB = "420kekekek";
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+    String brukerid = user.getUid();
+    String sub = brukerid.substring(0,3);
+
+    String sessionidDB = "#"+sub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +72,7 @@ public class Session extends AppCompatActivity {
         // Oppretter session og setter brukernavnet inn
        // createSession();
         bruker1.setText(brukerid);
-        sessionId.setText("SessionID: #"+sessionidDB);
+        sessionId.setText("SessionID: "+sessionidDB);
 
         btn_finnFilm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +93,7 @@ public class Session extends AppCompatActivity {
 
         Map<String, Object> sessionAktiv = new HashMap<>();
         sessionAktiv.put("active", true);
+        sessionAktiv.put("activeSession", sessionidDB);
 
         // legger inn i db
         // Legger først inn selve session
@@ -110,11 +117,8 @@ public class Session extends AppCompatActivity {
                                         brukereSession.set(0, brukerid);
                                     }
                                 });
-
                     }
                 });
-
-
             }
         });
       //  visAktiveBrukere();
@@ -123,7 +127,7 @@ public class Session extends AppCompatActivity {
     // Sjekk for om bruker har en session som er aktiv, en bruker kan bare ha en aktiv session om gangen
     public void hasActiveSession(){
         CollectionReference bruker = db.collection("Users");
-        bruker.whereEqualTo("email", brukerid).whereEqualTo("active", true).get()
+        bruker.whereEqualTo("email", user.getEmail()).whereEqualTo("active", true).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -131,7 +135,6 @@ public class Session extends AppCompatActivity {
                             if (task.getResult().isEmpty()){
                                 // Har ingen aktiv session, kan opprette en ny session
                                 createSession();
-
                             } else {
                                 // Er allerede medlem av en session, vises til den
                                 Intent intent = new Intent(Session.this, SessionJoin.class);
@@ -139,11 +142,8 @@ public class Session extends AppCompatActivity {
                                 finish();
                             }
                         }
-
                     }
                 });
-
-
     }
 
     // Setter alle aktive brukere til textboksene
