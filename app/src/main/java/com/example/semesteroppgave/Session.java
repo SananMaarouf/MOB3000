@@ -31,6 +31,7 @@ public class Session extends AppCompatActivity {
     ArrayList<String> brukereSession = new ArrayList<>();
 
     Button btn_finnFilm;
+    Button btn_returnHome;
     private TextView bruker1;
     private TextView bruker2;
     private TextView bruker3;
@@ -58,6 +59,7 @@ public class Session extends AppCompatActivity {
         sessionId = findViewById(R.id.sessionId);
         bruker1 = findViewById(R.id.bruker1);
         bruker2 = findViewById(R.id.bruker2);
+        btn_returnHome = findViewById(R.id.returnHome);
 
         // Setter arralisisten til å inneholde null verider for alle plassene
         brukereSession.add(null);
@@ -77,6 +79,15 @@ public class Session extends AppCompatActivity {
         btn_finnFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            }
+        });
+
+        btn_returnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Session.this, MainSite.class);
+                startActivity(intent);
+                finish();
             }
         });
 

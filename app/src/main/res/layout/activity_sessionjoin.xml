@@ -8,6 +8,19 @@
     android:background="#3a3a3a"
     tools:context=".SessionJoin">
 
+    <Button
+        android:id="@+id/returnHome"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="300dp"
+        android:layout_marginBottom="550dp"
+        android:drawable="@drawable/back"
+        app:icon="@drawable/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/bruker1"
         android:layout_width="wrap_content"

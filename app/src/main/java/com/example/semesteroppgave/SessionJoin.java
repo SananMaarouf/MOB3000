@@ -34,7 +34,7 @@ public class SessionJoin extends AppCompatActivity {
     ArrayList<String> brukereSession = new ArrayList<>();
     boolean isInSession = false;
     String aktiveSession = "";
-
+    Button btn_returnHome;
     Button btn_finnSession;
     private TextInputLayout SessionIDInput;
     private TextView bruker1;
@@ -61,7 +61,7 @@ public class SessionJoin extends AppCompatActivity {
 
         // setter filedsene
         btn_finnSession = findViewById(R.id.btn_finnSession);
-
+        btn_returnHome = findViewById(R.id.returnHome);
         SessionIDInput = findViewById(R.id.SessionIDInput);
         bruker1 = findViewById(R.id.bruker1);
         bruker2 = findViewById(R.id.bruker2);
@@ -100,6 +100,14 @@ public class SessionJoin extends AppCompatActivity {
                     joinSession(sessionTallet.toString());
                 }
 
+            }
+        });
+        btn_returnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SessionJoin.this, MainSite.class);
+                startActivity(intent);
+                finish();
             }
         });
 
