@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/bruker1"
-        android:layout_width="75dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:text="Empty1"
         android:textColor="#FFFFFF"
@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/bruker2"
-        android:layout_width="75dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="175dp"
@@ -40,7 +40,7 @@
 
     <TextView
         android:id="@+id/bruker3"
-        android:layout_width="75dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginTop="115dp"
         android:layout_marginEnd="21dp"
@@ -56,7 +56,7 @@
 
     <TextView
         android:id="@+id/bruker4"
-        android:layout_width="75dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:text="Empty4"
         android:textColor="#FFFFFF"
@@ -70,7 +70,7 @@
 
     <TextView
         android:id="@+id/bruker5"
-        android:layout_width="75dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:text="Empty5"
         android:textColor="#FFFFFF"
