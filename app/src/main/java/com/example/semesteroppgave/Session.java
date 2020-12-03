@@ -2,6 +2,7 @@ package com.example.semesteroppgave;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -16,8 +18,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -59,6 +64,10 @@ public class Session extends AppCompatActivity {
         sessionId = findViewById(R.id.sessionId);
         bruker1 = findViewById(R.id.bruker1);
         bruker2 = findViewById(R.id.bruker2);
+        bruker3 = findViewById(R.id.bruker3);
+        bruker4 = findViewById(R.id.bruker4);
+        bruker5 = findViewById(R.id.bruker5);
+
         btn_returnHome = findViewById(R.id.returnHome);
 
         // Setter arralisisten til å inneholde null verider for alle plassene
@@ -91,6 +100,17 @@ public class Session extends AppCompatActivity {
             }
         });
 
+        final DocumentReference docRef = db.collection("Session").document(sessionidDB).collection("Users").document("AlleBrukere");
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                if(snapshot != null && snapshot.exists()){
+                    System.out.println("Oppdatert");
+                    finnAktiveSession(sessionidDB);
+                }
+
+            }
+        });
     }
 
     // Oppretter session i db
@@ -167,5 +187,29 @@ public class Session extends AppCompatActivity {
 
     }
 
+    // finner den aktive sessionen og viser den
+    public void finnAktiveSession(String idSession){
+        System.out.println("HEEEEEEEEEEEERE");
+        db.collection("Session").document(idSession)
+                .collection("Users").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot document: task.getResult()){
+                                // Kjører for antall brukere som er i sessionen
+                                int docSize = document.getData().size();
+                                for(int i=0;i<docSize;i++){
+                                    int valgtBruker = i+1;
+                                    // Legger til brukere i listen
+                                    brukereSession.set(i,(document.getString("bruker"+valgtBruker)));
+
+                                }
+                                visAktiveBrukere();
+                            }
+
+                        }
+                    }});
+    }
 
 }
