@@ -72,7 +72,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     private TextView rating;
     private TextView overview;
     private String url = "https://image.tmdb.org/t/p/w500";
-    String brukerId = "ratCity";
+    String brukerId = user.getUid();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +107,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
 
         // prøver å hente ut informasjon
         // DET UNDER ER KOMMENTERT VEKK PGA TESTING
-        /*
+
         try {
             // Hva du skal søke på
             String sokEtter="popular";
@@ -123,7 +123,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             e.printStackTrace();
         }
 
-         */
+
         //  System.out.println("STØØØØØRELSE: "+filmer.size());
 
         like.setOnClickListener(new View.OnClickListener() {

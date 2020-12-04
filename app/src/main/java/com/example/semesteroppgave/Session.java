@@ -171,9 +171,7 @@ public class Session extends AppCompatActivity {
                                 createSession();
                             } else {
                                 // Er allerede medlem av en session, vises til den
-                                Intent intent = new Intent(Session.this, SessionJoin.class);
-                                startActivity(intent);
-                                finish();
+                                finnAktiveSession(sessionidDB);
                             }
                         }
                     }
