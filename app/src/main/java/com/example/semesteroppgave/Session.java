@@ -79,6 +79,9 @@ public class Session extends AppCompatActivity {
         btn_finnFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(Session.this, SessionMovie.class);
+                startActivity(intent);
+                finish();
             }
         });
 

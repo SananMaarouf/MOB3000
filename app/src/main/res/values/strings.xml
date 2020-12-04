@@ -6,4 +6,5 @@
     <string name="yes">Yes</string>
     <string name="open">open</string>
     <string name="close">close</string>
+    <string name="movies_liked_by_everone_in_this_session">Movies liked by everone in this session</string>
 </resources>
