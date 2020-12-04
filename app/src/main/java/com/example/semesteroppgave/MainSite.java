@@ -221,13 +221,13 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         if(menuItem.getItemId()==R.id.session) {
             Intent intent = new Intent(MainSite.this, Session.class);
             startActivity(intent);
-            finish();
+
         }
 
         if(menuItem.getItemId()==R.id.settings){
             Intent intent = new Intent(MainSite.this, SessionJoin.class);
             startActivity(intent);
-            finish();
+
         }
 
         if (menuItem.getItemId() == R.id.logout) {

@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Splashscreen extends AppCompatActivity {
-    private static int SPLASH_SCREEN = 0;
+    private static final int SPLASH_SCREEN = 0;
     //variables
     Animation topAnim, bottomAnim;
     ImageView image;
@@ -71,6 +71,7 @@ public class Splashscreen extends AppCompatActivity {
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Splashscreen.this, pairs);
                 startActivity(intent,options.toBundle());
+                finish();
             }
         }, SPLASH_SCREEN);
     }

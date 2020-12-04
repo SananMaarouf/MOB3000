@@ -22,6 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
+
             <Button
                 android:id="@+id/dislike"
                 android:layout_width="wrap_content"
@@ -29,10 +30,8 @@
                 android:layout_weight="1"
                 android:text="Dislike"
                 android:textColor="#FFFFFF"
-                android:background="#6C63FF"
-                />
-
-
+                app:cornerRadius="70dp"
+                 />
 
             <Button
                 android:id="@+id/like"
@@ -41,8 +40,7 @@
                 android:layout_weight="1"
                 android:text="Like"
                 android:textColor="#FFFFFF"
-                android:background="#6C63FF"
-                />
+                app:cornerRadius="70dp" />
         </LinearLayout>
 
         <LinearLayout
