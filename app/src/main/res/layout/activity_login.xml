@@ -45,7 +45,9 @@
             android:layout_height="wrap_content"
             android:hint="Email"
             android:textColorHint="#FFFFFF"
-            app:hintTextColor="#FBF9F9">
+            app:boxStrokeColor="#FFFFFF"
+            app:hintTextColor="#FBF9F9"
+            app:passwordToggleTint="#FFFFFF">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -61,8 +63,10 @@
             android:hint="Password"
             android:textColorHint="#FFFFFF"
             app:boxStrokeColor="#FFFFFF"
+            app:endIconTint="#FFFFFF"
             app:helperTextTextColor="#FFFFFF"
             app:passwordToggleEnabled="true"
+            app:passwordToggleTint="#FFFFFF"
             app:placeholderTextColor="#FFFFFF">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -89,7 +93,7 @@
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-
+            android:textColor="#FFFFFF"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="#6C63FF"
@@ -103,6 +107,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="#6C63FF"
+            android:textColor="#FFFFFF"
             android:text="New User? Sign up" />
 
         <TextView
