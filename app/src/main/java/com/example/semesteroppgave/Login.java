@@ -77,8 +77,6 @@ public class Login extends AppCompatActivity {
                 .build();
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-
         mAuth = FirebaseAuth.getInstance();
         findViewById(R.id.google_signin).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +143,6 @@ public class Login extends AppCompatActivity {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                // ...
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
