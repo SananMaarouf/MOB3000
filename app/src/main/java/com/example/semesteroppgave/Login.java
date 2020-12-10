@@ -74,6 +74,7 @@ public class Login extends AppCompatActivity {
                 .requestIdToken("1019960022170-54osvceq97v5kb67pd4og5pli2tv6is5.apps.googleusercontent.com")
                 //.requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
+
                 .build();
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
