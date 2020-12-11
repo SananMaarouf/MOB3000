@@ -99,9 +99,9 @@ public class Login extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
                 Editable usernameText = username.getEditText().getText();
-                //Editable passwordText = password.getEditText().getText(); passwordText.toString()
+                Editable passwordText = password.getEditText().getText();
 
-                mAuth.signInWithEmailAndPassword(usernameText.toString(), "Ratisgey1")
+                mAuth.signInWithEmailAndPassword(usernameText.toString(), passwordText.toString())
                         .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
