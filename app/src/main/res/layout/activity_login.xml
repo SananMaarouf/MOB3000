@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="82dp"
-        android:text="Hello there, welcome to Movie Match"
+        android:text="Hello there, welcome to Movie Finder"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
         android:transitionName="logoText" />
