@@ -35,7 +35,6 @@ public class SessionMovie extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sessionmovie);
         getSupportActionBar().hide();
@@ -53,10 +52,6 @@ public class SessionMovie extends AppCompatActivity {
 
         getMovies();
         System.out.println("Størrelse "+filmer.size());
-
-
-
-
     }
 
 
@@ -69,7 +64,6 @@ public class SessionMovie extends AppCompatActivity {
                         if(task.isSuccessful()){
                             System.out.println("Task stør "+task.getResult().size());
                             for(QueryDocumentSnapshot document: task.getResult()){
-
                                 String navn = document.getString("name");
                                 String image = document.getString("image");
                                 String release = document.getString("release");
@@ -80,7 +74,6 @@ public class SessionMovie extends AppCompatActivity {
 
                                 filmer.add(document.getString("name"));
                                 //System.out.println("Størrelse3 "+filmer.size());
-
                             }
                             adapterKjør();
                         }
