@@ -51,7 +51,6 @@ public class SessionMovie extends AppCompatActivity {
         });
 
         getMovies();
-        System.out.println("Størrelse "+filmer.size());
     }
 
 
@@ -80,7 +79,6 @@ public class SessionMovie extends AppCompatActivity {
                     }
 
                 });
-        System.out.println("Størrelse2 "+filmer.size());
     }
 
     public void adapterKjør(){

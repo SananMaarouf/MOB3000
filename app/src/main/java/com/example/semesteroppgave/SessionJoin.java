@@ -36,10 +36,14 @@ public class SessionJoin extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     // Liste med aktive brukere i session
     ArrayList<String> brukereSession = new ArrayList<>();
+    // boolean for å holde kontroll på om bruker er aktiv i en session
     boolean isInSession = false;
+    // String med eventuell sessionId
     String aktiveSession = "";
+
     Button btn_returnHome;
     Button btn_finnSession;
+
     private TextInputLayout SessionIDInput;
     private TextView bruker1;
     private TextView bruker2;
@@ -53,7 +57,6 @@ public class SessionJoin extends AppCompatActivity {
     String brukerid = user.getUid();
 
     // setter iden
-
     String sessionidDB = "SessionJoin #";
 
     @Override
@@ -82,11 +85,7 @@ public class SessionJoin extends AppCompatActivity {
         // Sjekker først om bruker har en aktiv session
         hasActiveSession();
 
-        // Oppretter session og setter brukernavnet inn
-       // createSession();
-        //bruker1.setText(brukerid);
-        //sessionId.setText("SessionJoinID: #"+sessionidDB);
-
+        // knapp for å finne inntastet session
         btn_finnSession.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -105,6 +104,8 @@ public class SessionJoin extends AppCompatActivity {
 
             }
         });
+
+        // tilbake knapp
         btn_returnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +115,7 @@ public class SessionJoin extends AppCompatActivity {
             }
         });
 
+        // Funksjon som kontuerlig sjekker om det er oppdateringer i firebase, sjekker her om brukere som joiner session
         final DocumentReference docRef = db.collection("Session").document(sessionidDB).collection("Users").document("AlleBrukere");
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -200,8 +202,6 @@ public class SessionJoin extends AppCompatActivity {
     }
 
     // Sjekk for om bruker har en session som er aktiv, en bruker kan bare ha en aktiv session om gangen
-    // endre til "contains i array" VIKTIG
-    // Sjekk for om bruker har en session som er aktiv, en bruker kan bare ha en aktiv session om gangen
     public void hasActiveSession(){
         CollectionReference bruker = db.collection("Users");
         bruker.whereEqualTo("email", user.getEmail()).whereEqualTo("active", true).get()
@@ -238,7 +238,6 @@ public class SessionJoin extends AppCompatActivity {
 
     // finner den aktive sessionen og viser den
     public void finnAktiveSession(String idSession){
-        System.out.println("HEEEEEEEEEEEERE");
         db.collection("Session").document(idSession)
                 .collection("Users").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -273,6 +272,7 @@ public class SessionJoin extends AppCompatActivity {
 
     }
 
+    // Sjekker hvilke knapp som skal vises
     public void sjekkKnappNavn(){
         if(isInSession){
             // sett vist knapp til leave
@@ -290,7 +290,6 @@ public class SessionJoin extends AppCompatActivity {
         // Lager local liste med brukere
         ArrayList<String> brukere = new ArrayList<>();
         Map<String, Object> brukereH = new HashMap<>();
-        System.out.println("AKTIVE "+aktiveSession);
 
         // finner session bruker er med i aktiveSession  bruker.whereEqualTo("email", user.getEmail()).whereEqualTo("active", true).get()
         db.collection("Session").document(aktiveSession)
@@ -347,7 +346,7 @@ public class SessionJoin extends AppCompatActivity {
 
     }
 
-
+    // Resetter brukere i din lokale liste
     public void resetBrukere(){
         brukereSession.set(0, null);
         brukereSession.set(1, null);

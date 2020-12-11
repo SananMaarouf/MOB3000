@@ -50,11 +50,13 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     ArrayList<MovieChecked> moviesRanked = new ArrayList<>();
    // ArrayList<Movie> dislikeFilm = new ArrayList<>();
 
+    // Kontroll variabel som holder kontroll på hvilke film bruker er på
     int erPaFilm = 0;
     // holder kontroll på hvilke side apien er på
     int sideApi = 1;
     // holder kontroll på hvor mange sider det er totalt i api spørringen. Husk å oppdater hver gang du gjør en ny spørring
     int sisteApi = 40;
+
     FinnApi finnApi = new FinnApi();
 
     DrawerLayout drawerLayout;
@@ -71,7 +73,9 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
     private Button dislike;
     private TextView rating;
     private TextView overview;
+    // Linken til bildene hos tmdb
     private String url = "https://image.tmdb.org/t/p/w500";
+    // Finner bruker iden
     String brukerId = user.getUid();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +103,11 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         rating = findViewById(R.id.rating);
         overview = findViewById(R.id.overview);
 
+        // henter de første filmene fra apien
         hentFilmerDB();
-        // System.out.println("Størrelse totalt: "+moviesRanked.size());
-
-        // 93e7133aa45445f8651ca9eda8a953b5
-
 
         // prøver å hente ut informasjon
-        // DET UNDER ER KOMMENTERT VEKK PGA TESTING
+
 
         try {
             // Hva du skal søke på
@@ -117,15 +118,14 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             // Gjør JSON om til array
             JSONArray filmlisteArray = filmliste.getJSONArray("results");
 
+            // Legger inn filmene som er blitt funnet
             leggInnFilm(filmlisteArray);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        //  System.out.println("STØØØØØRELSE: "+filmer.size());
-
+        // On click av liker knappen
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,16 +137,15 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
                         moviesRanked.add(filmChecked);
                         leggFilmListe(brukerId, filmChecked);
                     }
-                  //  leggFilmListe(brukerId, filmer.get(erPaFilm).getId(), true);
-                 //   moviesRanked.add(filmer.get(erPaFilm));
 
+                    // Setter neste film fram for vurdering av bruker
                     settFilm(title,bilde,release);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
-
+        // On click av dislike knappen
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,16 +158,16 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
                         leggFilmListe(brukerId, filmChecked);
 
                     }
-                  //  leggFilmListe(brukerId, filmer.get(erPaFilm).getId(), false);
-                 //   moviesRanked.add(filmer.get(erPaFilm));
 
+                    // Setter neste film fram for vurdering av bruker
                     settFilm(title,bilde,release);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
-        //Getting user information from firebase
+
+        // Henter brukerinformasjon fra firebase
         if (user != null) {
             String name = user.getDisplayName();
             Uri personPhoto = user.getPhotoUrl();
@@ -188,21 +187,22 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
 
     // Setter neste film i appen
     private void settFilm(TextView title, ImageView bilde, TextView release) throws Exception {
-        //System.out.println("Er på filmnr: "+erPaFilm);
-        // System.out.println("Er på sidenr: "+sideApi);
-        // Sjekker om det er siste filmen på siden
+
+        // Sjekker om det er siste filmen i vår interne liste (20 filmer per side)
         if(erPaFilm == faktiskeFilmer.size()){
             erPaFilm=0;
             faktiskeFilmer.clear();
             filmer.clear();
             hentNyeFilmer();
 
+            // hvis ikke hentes neste film
         }else{
             Movie filmen = faktiskeFilmer.get(erPaFilm);
             title.setText(filmen.getName());
             release.setText(filmen.getRelease());
             overview.setText(filmen.getOverview());
             rating.setText(filmen.getRating()+"");
+            // Viser fram bildet
             Glide.with(this)
                     .load(url+filmen.getImage())
                     .into(bilde);
@@ -258,14 +258,13 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
             Movie nyfilm = new Movie(name,image,release,overview,id,rating);
 
             // sjekker om filmen er testet før hvis true legg til i listen
-            //boolean filmFinnes = sjekkFilm(nyfilm);
             filmer.add(nyfilm);
 
         }
+
+        // sjekker om filmen er likt/disliked før
         sjekkFilm();
         settFilm(title,bilde,release);
-        //sjekkFilm();
-        //System.out.println("Størrelsen: "+filmer.size());
 
     }
 
@@ -329,6 +328,7 @@ public class MainSite extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
 
+    // henter filmer fra firebase
     public void hentFilmerDB(){
         // Finner filmer
         db.collection("Users").document(brukerId)

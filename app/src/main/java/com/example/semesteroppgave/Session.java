@@ -47,9 +47,11 @@ public class Session extends AppCompatActivity {
     // Innloggede bruker/ party leader
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+    // henter brukerid
     String brukerid = user.getUid();
     String sub = brukerid.substring(0,3);
 
+    // Lager session iden, bør bli mer avansert ved større bruk
     String sessionidDB = "#"+sub;
 
     @Override
@@ -81,10 +83,10 @@ public class Session extends AppCompatActivity {
         hasActiveSession();
 
         // Oppretter session og setter brukernavnet inn
-       // createSession();
         bruker1.setText(brukerid);
         sessionId.setText("SessionID: "+sessionidDB);
 
+        // viser filmene som er til felless
         btn_finnFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +96,7 @@ public class Session extends AppCompatActivity {
             }
         });
 
+        // tilbake knapp
         btn_returnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +106,7 @@ public class Session extends AppCompatActivity {
             }
         });
 
+        // Funksjon som kontuerlig sjekker om det er oppdateringer i firebase, sjekker her om brukere som joiner session
         final DocumentReference docRef = db.collection("Session").document(sessionidDB).collection("Users").document("AlleBrukere");
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -155,7 +159,6 @@ public class Session extends AppCompatActivity {
                 });
             }
         });
-      //  visAktiveBrukere();
     }
 
     // Sjekk for om bruker har en session som er aktiv, en bruker kan bare ha en aktiv session om gangen
@@ -190,7 +193,6 @@ public class Session extends AppCompatActivity {
 
     // finner den aktive sessionen og viser den
     public void finnAktiveSession(String idSession){
-        System.out.println("HEEEEEEEEEEEERE");
         db.collection("Session").document(idSession)
                 .collection("Users").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
